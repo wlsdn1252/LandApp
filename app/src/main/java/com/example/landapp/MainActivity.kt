@@ -1,5 +1,6 @@
 package com.example.landapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.landapp.adapters.RoomAdapter
@@ -26,6 +27,20 @@ class MainActivity : AppCompatActivity() {
 
         mRoomAdapter = RoomAdapter(this, R.layout.room_list_item, mRoomList)
         roomListView.adapter = mRoomAdapter
+
+        //리스트의 한 줄을 클릭했을때
+        roomListView.setOnItemClickListener { parent, view, position, id ->
+            val clickedRoom = mRoomList[position]   // 해당 줄에 위치한 포지션값을 넣어라
+
+            // Intent에 담아서 줄에 해당하는 정보를 넘긴다.(출발지, 도착지)
+            val myIntent = Intent(this, ViewRoomDetailActivity::class.java)
+            
+            // myIntent에서 정보를 넘기는데 이름은 room으로 하고 clickedRoom에 담긴 모든 정보를 putExtra(담아서 넘겨라)
+            // Room.kt파일에서 생정자 옆에  : Serializable을 적어줘야 함
+            myIntent.putExtra("room", clickedRoom)
+
+            startActivity(myIntent)
+        }
 
 
     }
